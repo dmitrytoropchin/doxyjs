@@ -4,7 +4,13 @@ A simple CLI tool for converting Javascript into psudo C++ for [Doxygen](http://
 
 ## Installation
 
-TODO
+Install it once globally:
+
+```sh
+npm install -g doxyjs
+```
+
+**You’ll need to have Node >= 7 on your machine**. You can use [nvm](https://github.com/creationix/nvm#usage) to easily switch Node versions between different projects.
 
 ## Usage
 
@@ -16,13 +22,13 @@ You can use `doxyjs` as standalone CLI tool to generate pseudo C++ code from jav
 
 Printing pseudo C++ representation of Javascript source to standard output:
 
-```bash
+```sh
 doxyqml --encoding utf8 --line-break lf file.js other_file.js
 ```
 
 #### Options
 
-```bash
+```sh
 $ doxyjs --help
 
   Usage: doxyjs [options] [files...]
