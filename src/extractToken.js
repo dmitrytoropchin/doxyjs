@@ -7,7 +7,7 @@ const extractVariable = line => {
     const [_, variable_name] = variable_match;
     return {
       type: 'global_variable',
-      name: variable_name
+      name: variable_name,
     };
   }
 
@@ -23,14 +23,14 @@ const extractFunction = line => {
       return {
         type: 'class_constructor',
         class: function_name,
-        args: utils.argsArray(function_args)
+        args: utils.argsArray(function_args),
       };
     }
 
     return {
       type: 'global_function',
       name: function_name,
-      args: utils.argsArray(function_args)
+      args: utils.argsArray(function_args),
     };
   }
 
@@ -46,9 +46,11 @@ const extractBaseClass = line => {
     return {
       type: 'base_class',
       class: class_name,
-      base_class: base_class_name
+      base_class: base_class_name,
     };
   }
+
+  return null;
 };
 
 const extractClassMethod = line => {
@@ -60,7 +62,7 @@ const extractClassMethod = line => {
       type: 'class_method',
       class: class_name,
       name: method_name,
-      args: utils.argsArray(method_args)
+      args: utils.argsArray(method_args),
     };
   }
 
@@ -95,7 +97,7 @@ const extractComment = comment_array => {
       comment.params[param_match[2]] = {
         brief: param_match[3],
         name: param_match[2],
-        type: param_match[1]
+        type: param_match[1],
       };
       return comment;
     }
@@ -157,4 +159,10 @@ const extractToken = (tokens, line) => {
   return tokens;
 };
 
-module.exports = extractToken;
+exports = module.exports = extractToken;
+
+exports.extractVariable = extractVariable;
+exports.extractFunction = extractFunction;
+exports.extractClassMethod = extractClassMethod;
+exports.extractBaseClass = extractBaseClass;
+exports.extractComment = extractComment;
