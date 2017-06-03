@@ -1,4 +1,4 @@
-const exportGlobalVariable = (global_variable, linebreak) => {
+const exportGlobalVariable = (global_variable, linebreak, ts) => {
   let variable_export = '';
 
   if (global_variable.comment && global_variable.comment.brief) {
@@ -10,7 +10,7 @@ const exportGlobalVariable = (global_variable, linebreak) => {
   return variable_export;
 };
 
-const exportGlobalFunction = (global_function, linebreak) => {
+const exportGlobalFunction = (global_function, linebreak, ts) => {
   let function_export = '';
 
   if (global_function.comment) {
@@ -45,7 +45,7 @@ const exportGlobalFunction = (global_function, linebreak) => {
   return function_export;
 };
 
-const exportClass = (_class, linebreak) => {
+const exportClass = (_class, linebreak, ts) => {
   let class_export = '';
 
   if (_class.constructor && _class.constructor.comment) {
@@ -66,7 +66,9 @@ const exportClass = (_class, linebreak) => {
       const comment = _class.constructor.comment;
 
       class_export += `/*!${linebreak}`;
-      class_export += ` * @brief Constructor${linebreak}`;
+      class_export += ` * @brief ${ts
+        ? ts.translate('Constructor')
+        : 'Constructor'}${linebreak}`;
 
       if (comment.params) {
         Object.keys(comment.params)
@@ -86,7 +88,7 @@ const exportClass = (_class, linebreak) => {
   }
 
   _class.methods.forEach(method => {
-    class_export += `${exportGlobalFunction(method, linebreak)}`;
+    class_export += `${exportGlobalFunction(method, linebreak, ts)}`;
   });
 
   class_export += `};${linebreak}`;

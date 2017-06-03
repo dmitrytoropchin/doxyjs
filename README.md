@@ -29,7 +29,7 @@ You can use `doxyjs` as standalone CLI tool to generate pseudo C++ code from jav
 Printing pseudo C++ representation of Javascript source to standard output:
 
 ```sh
-doxyqml --encoding utf8 --line-break lf file.js other_file.js
+doxyqml --encoding utf8 --line-break lf --lang ru file.js
 ```
 
 #### Options
@@ -39,7 +39,7 @@ $ doxyjs --help
 
   Usage: doxyjs [options] [files...]
 
-  Converts Javascript into psudo C++ for Doxygen processing
+  Converts Javascript into psudo C++ for Doxygen
 
   Options:
 
@@ -47,8 +47,19 @@ $ doxyjs --help
     -V, --version                  output the version number
     -e, --encoding <encoding>      source files encoding (utf8 by default)
     -b, --line-break <line break>  line break symbol [lf|crlf] (lf by default)
+    -l, --lang <language code>     output language (en by default)
 
 ```
+
+List of supported encodings can be found [here](https://nodejs.org/api/buffer.html#buffer_buffers_and_character_encodings).
+
+List of supported languages:
+
+*   de
+*   en
+*   es
+*   it
+*   ru
 
 ### Doxygen Integration
 
@@ -146,9 +157,6 @@ Next contructions will be interpreted as classes:
  * @param type:Object arg argument description
  */
 function Argument(arg) {
-    if (!(this instanceof Argument)) {
-        return new Argument(arg);
-    }
 }
 
 /*!
@@ -179,13 +187,6 @@ Argument.prototype.addArgument = function(arg) {
  * @param type:Object cmd command description
  */
 function Command(cmd) {
-    if (!(this instanceof Command)) {
-        return new Command(cmd);
-    }
-
-    var _cmd = (cmd || {});
-
-    Argument.call(this, _cmd);
 }
 
 Command.prototype = Object.create(Argument.prototype);
@@ -196,13 +197,6 @@ Command.prototype.constructor = Argument;
  * @param type:Object event event description
  */
 function Event(event) {
-    if (!(this instanceof Event)) {
-        return new Event(event);
-    }
-
-    var _event = (event || {});
-
-    Argument.call(this, _event);
 }
 
 Event.prototype = Object.create(Argument.prototype);

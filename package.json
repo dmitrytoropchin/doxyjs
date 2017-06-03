@@ -1,7 +1,7 @@
 {
   "name": "doxyjs",
   "version": "1.0.3",
-  "description": "Converts Javascript into psudo C++ for Doxygen processing",
+  "description": "Converts Javascript into psudo C++ for Doxygen",
   "main": "index.js",
   "author": "Dmitry Toropchin",
   "license": "MIT",
@@ -14,7 +14,11 @@
     "url": "https://github.com/dmitrytoropchin/doxyjs.git"
   },
   "dependencies": {
-    "commander": "^2.9.0"
+    "commander": "^2.9.0",
+    "localize": "^0.4.7"
+  },
+  "devDependencies": {
+    "jest": "^20.0.4"
   },
   "bin": {
     "doxyjs": "./index.js"
@@ -23,12 +27,10 @@
     "node": ">=7.0.0"
   },
   "keywords": [
-    "cli", "doxygen"
+    "cli",
+    "doxygen"
   ],
   "scripts": {
     "test": "jest"
-  },
-  "devDependencies": {
-    "jest": "^20.0.4"
   }
 }
