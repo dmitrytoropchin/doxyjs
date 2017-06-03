@@ -26,7 +26,8 @@ const exportGlobalFunction = (global_function, linebreak) => {
       Object.keys(comment.params)
         .map(param_name => comment.params[param_name])
         .forEach(param => {
-          function_export += ` * @param ${param.name || ''} ${param.brief || ''}${linebreak}`;
+          function_export += ` * @param ${param.name || ''} ${param.brief ||
+            ''}${linebreak}`;
         });
     }
 
@@ -71,7 +72,8 @@ const exportClass = (_class, linebreak) => {
         Object.keys(comment.params)
           .map(param_name => comment.params[param_name])
           .forEach(param => {
-            class_export += ` * @param ${param.name || ''} ${param.brief || ''}${linebreak}`;
+            class_export += ` * @param ${param.name || ''} ${param.brief ||
+              ''}${linebreak}`;
           });
       }
 
