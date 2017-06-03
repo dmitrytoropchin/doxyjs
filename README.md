@@ -4,13 +4,19 @@ A simple CLI tool for converting Javascript into psudo C++ for [Doxygen](http://
 
 ## Installation
 
-Install it once globally:
+Install it once globally via [`npm`](https://www.npmjs.com/package/doxyjs):
 
 ```sh
 npm install -g doxyjs
 ```
 
-**You’ll need to have Node >= 7 on your machine**. You can use [nvm](https://github.com/creationix/nvm#usage) to easily switch Node versions between different projects.
+Or via [`yarn`](https://yarnpkg.com/en/package/doxyjs):
+
+```sh
+yarn global add doxyjs
+```
+
+**You’ll need to have Node >= 7 on your machine**. You can use [nvm](https://github.com/creationix/nvm#usage) or [ndenv](https://github.com/riywo/ndenv) to easily switch Node versions between different projects.
 
 ## Usage
 
