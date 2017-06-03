@@ -45,7 +45,7 @@ const doxyjs = (input_data, encoding, linebreak) => {
 module.exports = (filename, encoding, linebreak) => {
   fs.readFile(filename, encoding, (error, data) => {
     if (error) {
-      console.error(`doxyjs: can't read file ${input_filename}, aborting`);
+      console.error(`doxyjs: can't read file ${filename}, aborting`);
       process.exit(1);
     }
 
