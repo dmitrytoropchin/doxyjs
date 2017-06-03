@@ -138,7 +138,6 @@ void global_function_without_arg();
 Next contructions will be interpreted as classes:
 
 ```javascript
-.pragma library
 
 /*!
  * @brief Argument Class
