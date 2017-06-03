@@ -70,22 +70,24 @@ const extractClassMethod = line => {
 };
 
 const extractComment = comment_array => {
-  const oneliner_expr = /^\s*\/\/\!\s*type\:(\w+)\s*(.*)$/;
+  const oneliner_expr = /^\s*\/\/\!\s*(type\:(\w+))?\s*(.*)$/;
   const brief_expr = /^\s*\*\s*@brief\s*(.*)$/;
-  const param_expr = /^\s*\*\s*@param\s*type\:(\w+)\s*(\w+)\s*(.*)$/;
-  const return_expr = /^\s*\*\s*@return\s*type\:(\w+)\s*(.*)$/;
+  const param_expr = /^\s*\*\s*@param\s*(type\:(\w+))?\s*(\w+)\s*(.*)$/;
+  const return_expr = /^\s*\*\s*@return\s*(type\:(\w+))?\s*(.*)$/;
 
   return comment_array.reduce((comment, line) => {
     const oneliner_match = line.match(oneliner_expr);
     if (oneliner_match) {
-      comment.brief = oneliner_match[2];
-      comment.type = oneliner_match[1];
+      const [_, __, type, brief] = oneliner_match;
+      comment.brief = brief;
+      comment.type = type;
       return comment;
     }
 
     const brief_match = line.match(brief_expr);
     if (brief_match) {
-      comment.brief = brief_match[1];
+      const [_, brief] = brief_match;
+      comment.brief = brief;
       return comment;
     }
 
@@ -94,17 +96,15 @@ const extractComment = comment_array => {
       if (!comment.params) {
         comment.params = {};
       }
-      comment.params[param_match[2]] = {
-        brief: param_match[3],
-        name: param_match[2],
-        type: param_match[1],
-      };
+      const [_, __, type, name, brief] = param_match;
+      comment.params[name] = { brief, name, type };
       return comment;
     }
 
     const return_match = line.match(return_expr);
     if (return_match) {
-      comment.return = { brief: return_match[2], type: return_match[1] };
+      const [_, __, type, brief] = return_match;
+      comment.return = { brief, type };
     }
 
     return comment;

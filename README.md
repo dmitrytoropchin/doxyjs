@@ -88,9 +88,11 @@ Code above will transform into:
 String a;
 ```
 
+However, you can omit any type definitions. Then default type `var` will be used.
+
 ### Functions
 
-Type definition for function arguments done the same way as for variables. Also you're able define functions's return type.
+Type definition for function arguments done the same way as for variables. Also you're able define functions's return type, however, this is still optional.
 
 ```javascript
 /*!
