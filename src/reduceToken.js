@@ -4,7 +4,7 @@ const reduceToken = (structure, token) => {
       struct.classes[_class] = {
         name: _class,
         constructor: null,
-        methods: []
+        methods: [],
       };
     }
   };
@@ -13,14 +13,14 @@ const reduceToken = (structure, token) => {
     case 'global_variable':
       structure.global_variables.push({
         name: token.name,
-        comment: token.comment
+        comment: token.comment,
       });
       break;
     case 'global_function':
       structure.global_functions.push({
         name: token.name,
         args: token.args,
-        comment: token.comment
+        comment: token.comment,
       });
       break;
     case 'base_class':
@@ -33,7 +33,7 @@ const reduceToken = (structure, token) => {
 
       structure.classes[token.class].constructor = {
         args: token.args,
-        comment: token.comment
+        comment: token.comment,
       };
       break;
     case 'class_method':
@@ -42,7 +42,7 @@ const reduceToken = (structure, token) => {
       structure.classes[token.class].methods.push({
         name: token.name,
         args: token.args,
-        comment: token.comment
+        comment: token.comment,
       });
       break;
   }
