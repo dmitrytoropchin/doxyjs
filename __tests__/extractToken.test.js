@@ -27,15 +27,23 @@ describe('extractToken', () => {
         args: [],
       });
 
-      expect(extractToken.extractFunction(class_constructor_line)).toEqual({
+      expect(extractToken.extractFunction(variable_line)).toBeNull();
+      expect(extractToken.extractFunction(class_constructor_line)).toBeNull();
+      expect(extractToken.extractFunction(class_method_line)).toBeNull();
+      expect(extractToken.extractFunction(base_class_line)).toBeNull();
+    });
+
+    it('extracts class', () => {
+      expect(extractToken.extractClass(class_constructor_line)).toEqual({
         type: 'class_constructor',
         class: 'Class',
         args: ['args'],
       });
 
-      expect(extractToken.extractFunction(variable_line)).toBeNull();
-      expect(extractToken.extractFunction(class_method_line)).toBeNull();
-      expect(extractToken.extractFunction(base_class_line)).toBeNull();
+      expect(extractToken.extractClass(variable_line)).toBeNull();
+      expect(extractToken.extractClass(function_line)).toBeNull();
+      expect(extractToken.extractClass(class_method_line)).toBeNull();
+      expect(extractToken.extractClass(base_class_line)).toBeNull();
     });
 
     it('extracts class method', () => {
@@ -113,7 +121,10 @@ describe('extractToken', () => {
       {
         type: 'global_variable',
         name: 'x',
-        comment: { brief: 'Variable description', type: 'String' },
+        comment: {
+          brief: 'Variable description',
+          type: 'String',
+        },
       },
     ]);
 

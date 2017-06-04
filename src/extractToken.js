@@ -4,7 +4,7 @@ const extractVariable = line => {
   const variable_expr = /^var\s+(\w+)/;
   const variable_match = line.match(variable_expr);
   if (variable_match) {
-    const [_, variable_name] = variable_match;
+    const [, variable_name] = variable_match;
     return {
       type: 'global_variable',
       name: variable_name,
@@ -18,7 +18,24 @@ const extractFunction = line => {
   const function_expr = /^function\s+(\w+)\s*\((.*)\)/;
   const function_match = line.match(function_expr);
   if (function_match) {
-    const [_, function_name, function_args] = function_match;
+    const [, function_name, function_args] = function_match;
+    if (!utils.isClassName(function_name)) {
+      return {
+        type: 'global_function',
+        name: function_name,
+        args: utils.argsArray(function_args),
+      };
+    }
+  }
+
+  return null;
+};
+
+const extractClass = line => {
+  const function_expr = /^function\s+(\w+)\s*\((.*)\)/;
+  const function_match = line.match(function_expr);
+  if (function_match) {
+    const [, function_name, function_args] = function_match;
     if (utils.isClassName(function_name)) {
       return {
         type: 'class_constructor',
@@ -26,12 +43,6 @@ const extractFunction = line => {
         args: utils.argsArray(function_args),
       };
     }
-
-    return {
-      type: 'global_function',
-      name: function_name,
-      args: utils.argsArray(function_args),
-    };
   }
 
   return null;
@@ -42,7 +53,7 @@ const extractBaseClass = line => {
   const base_class_match = line.match(base_class_expr);
 
   if (base_class_match) {
-    const [_, class_name, base_class_name] = base_class_match;
+    const [, class_name, base_class_name] = base_class_match;
     return {
       type: 'base_class',
       class: class_name,
@@ -57,7 +68,7 @@ const extractClassMethod = line => {
   const class_method_expr = /^(\w+)\.prototype\.(\w+)\s*\=\s*function\((.*)\)/;
   const class_method_match = line.match(class_method_expr);
   if (class_method_match) {
-    const [_, class_name, method_name, method_args] = class_method_match;
+    const [, class_name, method_name, method_args] = class_method_match;
     return {
       type: 'class_method',
       class: class_name,
@@ -75,10 +86,10 @@ const extractComment = comment_array => {
   const param_expr = /^\s*\*\s*@param\s*(type\:(\w+))?\s*(\w+)\s*(.*)$/;
   const return_expr = /^\s*\*\s*@return\s*(type\:(\w+))?\s*(.*)$/;
 
-  return comment_array.reduce((comment, line) => {
+  const comment = comment_array.reduce((comment, line) => {
     const oneliner_match = line.match(oneliner_expr);
     if (oneliner_match) {
-      const [_, __, type, brief] = oneliner_match;
+      const [, , type, brief] = oneliner_match;
       comment.brief = brief;
       comment.type = type;
       return comment;
@@ -86,7 +97,7 @@ const extractComment = comment_array => {
 
     const brief_match = line.match(brief_expr);
     if (brief_match) {
-      const [_, brief] = brief_match;
+      const [, brief] = brief_match;
       comment.brief = brief;
       return comment;
     }
@@ -96,47 +107,53 @@ const extractComment = comment_array => {
       if (!comment.params) {
         comment.params = {};
       }
-      const [_, __, type, name, brief] = param_match;
+      const [, , type, name, brief] = param_match;
       comment.params[name] = { brief, name, type };
       return comment;
     }
 
     const return_match = line.match(return_expr);
     if (return_match) {
-      const [_, __, type, brief] = return_match;
+      const [, , type, brief] = return_match;
       comment.return = { brief, type };
     }
 
     return comment;
   }, {});
+
+  return comment;
 };
 
 var reading_comment = false;
 var comment_ready = false;
-var comment = [];
+var comment_lines = [];
+var comment = null;
 
 const extractToken = (tokens, line) => {
   if (utils.isSingleLineComment(line)) {
+    comment_lines = [line];
+    comment = extractComment(comment_lines);
     comment_ready = true;
-    comment = [line];
     return tokens;
   }
 
   if (utils.isCommentEnd(line)) {
-    reading_comment = false;
+    comment = extractComment(comment_lines);
     comment_ready = true;
+    reading_comment = false;
     return tokens;
   }
 
   if (reading_comment) {
-    comment.push(line);
+    comment_lines.push(line);
     return tokens;
   }
 
   if (utils.isCommentStart(line)) {
-    reading_comment = true;
+    comment_lines = [];
+    comment = null;
     comment_ready = false;
-    comment = [];
+    reading_comment = true;
 
     return tokens;
   }
@@ -144,12 +161,13 @@ const extractToken = (tokens, line) => {
   var token =
     extractVariable(line) ||
     extractFunction(line) ||
+    extractClass(line) ||
     extractClassMethod(line) ||
     extractBaseClass(line);
 
   if (token) {
     if (comment_ready) {
-      token.comment = extractComment(comment);
+      token.comment = comment;
       comment_ready = false;
     }
 
@@ -163,6 +181,7 @@ exports = module.exports = extractToken;
 
 exports.extractVariable = extractVariable;
 exports.extractFunction = extractFunction;
+exports.extractClass = extractClass;
 exports.extractClassMethod = extractClassMethod;
 exports.extractBaseClass = extractBaseClass;
 exports.extractComment = extractComment;
