@@ -1,4 +1,8 @@
 
+## 1.0.6
+
+-  fixed translations loading
+
 ## 1.0.5
 
 -  fixed base class search

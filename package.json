@@ -1,6 +1,6 @@
 {
   "name": "doxyjs",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Converts Javascript into psudo C++ for Doxygen",
   "main": "index.js",
   "author": "Dmitry Toropchin",
