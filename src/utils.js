@@ -1,5 +1,4 @@
-exports.isClassName = function_name =>
-  function_name.charAt(0) === function_name.charAt(0).toUpperCase();
+exports.isClassName = function_name => function_name.match(/^[A-Z]\w*$/)
 
 exports.isSingleLineComment = line => line.match(/^\s*\/\/\!\s+.*$/);
 exports.isCommentStart = line => line.match(/^\s*\/\*\!\s*$/);
