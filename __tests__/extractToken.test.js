@@ -6,7 +6,7 @@ describe('extractToken', () => {
     const function_line = 'function foo() {}';
     const class_constructor_line = 'function Class(args) {}';
     const class_method_line = 'Class.prototype.foo = function(arg) {}';
-    const base_class_line = 'Class.prototype.constructor = BaseClass';
+    const base_class_line = 'Class.prototype = Object.create(BaseClass.prototype)';
 
     it('extracts global variable', () => {
       expect(extractToken.extractVariable(variable_line)).toEqual({

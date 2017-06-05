@@ -49,7 +49,7 @@ const extractClass = line => {
 };
 
 const extractBaseClass = line => {
-  const base_class_expr = /^\s*(\w+)\.prototype\.constructor\s*\=\s*(\w+)/;
+  const base_class_expr = /^\s*(\w+)\.prototype\s*\=\s*Object\.create\((\w+)\.prototype\)/;
   const base_class_match = line.match(base_class_expr);
 
   if (base_class_match) {

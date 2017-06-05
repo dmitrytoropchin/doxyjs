@@ -190,7 +190,7 @@ function Command(cmd) {
 }
 
 Command.prototype = Object.create(Argument.prototype);
-Command.prototype.constructor = Argument;
+Command.prototype.constructor = Command;
 
 /*!
  * @brief Event Class
@@ -200,7 +200,7 @@ function Event(event) {
 }
 
 Event.prototype = Object.create(Argument.prototype);
-Event.prototype.constructor = Argument;
+Event.prototype.constructor = Event;
 ```
 
 Output pseudo code:
@@ -263,7 +263,7 @@ Here some things to notice:
 *   Base class is determined by next code:
 
     ```javascript
-    Event.prototype.constructor = Argument;
+    Event.prototype = Object.create(Argument.prototype);
     ```
 
     Here `Argument` will be used as base class of `Event`.
