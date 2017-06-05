@@ -1,4 +1,8 @@
 
+## 1.0.7
+
+-  fixed class name matcher
+
 ## 1.0.6
 
 -  fixed translations loading
