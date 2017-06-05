@@ -4,8 +4,9 @@ const program = require('commander');
 const localize = require('localize');
 const doxyjs = require('./doxyjs');
 const pkg = require('./package.json');
+const ts = require('./translations/translations.json')
 
-const translator = new localize('./translations');
+const translator = new localize(ts);
 
 program
   .description(pkg.description)
