@@ -1,4 +1,8 @@
 
+## 1.0.5
+
+-  fixed base class search
+
 ## 1.0.4
 
 -  [#6](https://github.com/dmitrytoropchin/doxyjs/issues/6) added translations for doxygen comments
