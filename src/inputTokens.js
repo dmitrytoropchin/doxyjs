@@ -1,7 +1,10 @@
-const arguments = arguments_string =>
-  (arguments_string || '').split(',').map(arg => {
-    return { name: arg.trim() };
-  });
+const args_matcher = arguments_string => {
+  return arguments_string && arguments_string.trim().length
+    ? arguments_string.split(',').map(arg => {
+        return { name: arg.trim() };
+      })
+    : [];
+};
 
 const variable_matcher = (tokens, line) => {
   const expr = /^var\s(\w+)/;
@@ -27,7 +30,7 @@ const function_matcher = (tokens, line) => {
     const [, name, args] = match;
     new_tokens = [
       ...new_tokens,
-      { token_type: 'function', name, args: arguments(args) },
+      { token_type: 'function', name, args: args_matcher(args) },
     ];
 
     return new_tokens;
@@ -50,7 +53,7 @@ const class_constructor_matcher = (tokens, line) => {
         token_type: 'class_constructor',
         class_name,
         name: class_name,
-        args: arguments(args),
+        args: args_matcher(args),
       },
     ];
 
@@ -74,7 +77,7 @@ const class_method_matcher = (tokens, line) => {
         token_type: 'class_method',
         class_name: class_name,
         name: method_name,
-        args: arguments(method_args),
+        args: args_matcher(method_args),
       },
     ];
 

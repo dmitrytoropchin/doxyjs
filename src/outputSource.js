@@ -8,6 +8,7 @@ const commentSource = (token, br, ts) => {
     ? Object.keys(token.params)
         .map(param_name => token.params[param_name])
         .map(param => ` * @param ${param.name || ''} ${param.brief || ''}${br}`)
+        .join('')
     : ``;
   source += token.return ? ` * @return ${token.return.brief || ''}${br}` : ``;
   source += ` */${br}`;
@@ -30,7 +31,7 @@ const functionSource = (token, br, ts) => {
   source += token.comment ? commentSource(token.comment, br) : ``;
   source += `${token.type} ${token.name}(${token.args
     .map(arg => `${arg.type} ${arg.name}`)
-    .join(', ')})${br}`;
+    .join(', ')});${br}`;
 
   return source;
 };
@@ -55,17 +56,18 @@ const classSource = (token, br, ts) => {
             .map(
               param => ` * @param ${param.name || ''} ${param.brief || ''}${br}`
             )
+            .join('')
         : ``;
       source += ` */${br}`;
     }
     source += `${token.constructor.name}(${token.constructor.args
       .map(arg => `${arg.type} ${arg.name}`)
-      .join(', ')})${br}`;
+      .join(', ')});${br}`;
   }
 
   source += token.methods
     .map(method => functionSource(method, br, ts))
-    .join(br);
+    .join('');
 
   source += `};${br}`;
 

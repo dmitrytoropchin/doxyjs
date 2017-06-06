@@ -26,6 +26,8 @@ const attachVariableComment = (token, comment) => {
   if (comment) {
     token.type = comment.type || 'var';
     token.comment = comment;
+  } else {
+    token.type = 'var';
   }
   return token;
 };
@@ -33,7 +35,7 @@ const attachVariableComment = (token, comment) => {
 const attachFunctionComment = (token, comment) => {
   if (comment) {
     token.args.forEach(arg => {
-      if (arg.name in comment.params) {
+      if (comment.params && arg.name in comment.params) {
         arg.type = comment.params[arg.name].type || 'var';
       } else {
         arg.type = 'var';
@@ -55,7 +57,7 @@ const attachFunctionComment = (token, comment) => {
 const attachClassConstructorComment = (token, comment) => {
   if (comment) {
     token.args.forEach(arg => {
-      if (arg.name in comment.params) {
+      if (comment.params && arg.name in comment.params) {
         arg.type = comment.params[arg.name].type || 'var';
       } else {
         arg.type = 'var';
@@ -74,7 +76,7 @@ const attachClassConstructorComment = (token, comment) => {
 const attachClassMethodComment = (token, comment) => {
   if (comment) {
     token.args.forEach(arg => {
-      if (arg.name in comment.params) {
+      if (comment.params && arg.name in comment.params) {
         arg.type = comment.params[arg.name].type || 'var';
       } else {
         arg.type = 'var';
