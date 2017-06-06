@@ -1,4 +1,8 @@
 
+## 1.1.0
+
+-  [#1](https://github.com/dmitrytoropchin/doxyjs/issues/1) added support for file documentation
+
 ## 1.0.7
 
 -  fixed class name matcher
