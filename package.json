@@ -32,5 +32,16 @@
   ],
   "scripts": {
     "test": "jest"
+  },
+  "jest": {
+    "testMatch": [
+      "**/__tests__/*.test.js"
+    ],
+    "collectCoverageFrom": [
+      "**/*.js",
+      "!**/seeds/**",
+      "!**/node_modules/**",
+      "!**/coverage/**"
+    ]
   }
 }

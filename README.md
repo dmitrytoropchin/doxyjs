@@ -83,20 +83,44 @@ To use `doxyjs` with Doxygen you must make few changes to your Doxyfile.
 
 ## Documenting code
 
+### Files
+
+It's pretty straightforward:
+
+```javascript
+/*!
+ * @file FileName.js
+ * @brief File description goes here
+ */
+```
+
+will produce:
+
+```c++
+/*!
+ * @file FileName.js
+ * @brief File description goes here
+ */
+```
+
 ### Variables
 
 `doxyjs` will use `var` as default variable's type, but you can override it with `type:<YourTypeHere>`.
 
 ```javascript
-//! type:String This is variable
-var a = 'some string value';
+//! This is variable
+var a = 42;
+//! type:String This is string variable
+var b = 'some string value';
 ```
 
 Code above will transform into:
 
 ```c++
 //! This is variable
-String a;
+var a;
+//! This is string variable
+String b;
 ```
 
 However, you can omit any type definitions. Then default type `var` will be used.
@@ -106,6 +130,10 @@ However, you can omit any type definitions. Then default type `var` will be used
 Type definition for function arguments done the same way as for variables. Also you're able define functions's return type, however, this is still optional.
 
 ```javascript
+//! Short function description
+function foo(args) {
+}
+
 /*!
  *  @brief Test Function
  *  @param type:Object param1 first parameter
@@ -121,6 +149,11 @@ Resulting pseudo C++:
 
 ```c++
 /*!
+ * @brief Short function description
+ */
+void foo(var args);
+
+/*!
  * @brief Test Function
  * @param param1 first parameter
  * @param param2 second parameter
@@ -134,16 +167,18 @@ For functions without return value, just omit `@return` comment section:
 ```javascript
 /*!
  *  @brief Test Function
+ *  @param type:Date foo parameter description
  */
-function global_function_without_arg() {
+function global_function_without_arg(var foo) {
 }
 ```
 
 ```c++
 /*!
  * @brief Test Function
+ * @param foo parameter description
  */
-void global_function_without_arg();
+void global_function_without_arg(Date foo);
 ```
 
 ### Classes
@@ -268,7 +303,7 @@ Here some things to notice:
 
     Here `Argument` will be used as base class of `Event`.
 
-*   Classes brief description and constructor's parameters are extracted from next comment:
+*   Class'es brief description and constructor's parameters are extracted from next comment:
 
     ```javascript
     /*!
@@ -280,6 +315,8 @@ Here some things to notice:
     ```
 
     Here `@brief` is used for class description, and `@param` is used for constructor's parameters documentation.
+
+*   Docs for class methods done the same way as for global functions.
 
 ## CHANGELOG
 

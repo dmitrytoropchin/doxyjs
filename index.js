@@ -1,10 +1,11 @@
 #!/usr/bin/env node
 
+const fs = require('fs');
 const program = require('commander');
 const localize = require('localize');
 const doxyjs = require('./doxyjs');
 const pkg = require('./package.json');
-const ts = require('./translations/translations.json')
+const ts = require('./translations/translations.json');
 
 const translator = new localize(ts);
 
@@ -39,5 +40,14 @@ if (program.args.length == 0) {
 translator.setLocale(program.lang);
 
 program.args.forEach(file => {
-  doxyjs(file, program.encoding, program.lineBreak, translator);
+  fs.readFile(file, program.encoding, (error, data) => {
+    if (error) {
+      console.error(`doxyjs: can't read file ${file}, aborting`);
+      process.exit(1);
+    }
+
+    const output = doxyjs(data, program.lineBreak, translator);
+
+    process.stdout.write(output, program.encoding);
+  });
 });
