@@ -30,8 +30,13 @@
   "bin": {
     "doxyjs": "dist/index.js"
   },
-  "files": ["dist/"],
-  "keywords": ["cli", "doxygen"],
+  "files": [
+    "dist/"
+  ],
+  "keywords": [
+    "cli",
+    "doxygen"
+  ],
   "scripts": {
     "build": "babel src --out-dir dist --source-maps inline --copy-files",
     "clean": "rm -rf dist",
@@ -41,7 +46,14 @@
     "test": "jest"
   },
   "jest": {
-    "testMatch": ["**/__tests__/*.test.js"],
-    "collectCoverageFrom": ["**/*.js", "!**/seeds/**", "!**/node_modules/**", "!**/coverage/**"]
+    "testMatch": [
+      "**/__tests__/*.test.js"
+    ],
+    "collectCoverageFrom": [
+      "**/*.js",
+      "!**/seeds/**",
+      "!**/node_modules/**",
+      "!**/coverage/**"
+    ]
   }
 }
