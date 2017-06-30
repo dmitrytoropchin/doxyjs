@@ -16,8 +16,6 @@ Or via [`yarn`](https://yarnpkg.com/en/package/doxyjs):
 yarn global add doxyjs
 ```
 
-**You’ll need to have Node >= 7 on your machine**. You can use [nvm](https://github.com/creationix/nvm#usage) or [ndenv](https://github.com/riywo/ndenv) to easily switch Node versions between different projects.
-
 ## Usage
 
 ### CLI
