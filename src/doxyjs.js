@@ -1,6 +1,6 @@
-const inputTokens = require('./src/inputTokens');
-const inputStructure = require('./src/inputStructure');
-const outputSource = require('./src/outputSource');
+import inputTokens from './inputTokens';
+import inputStructure from './inputStructure';
+import outputSource from './outputSource';
 
 const doxyjs = (input_data, linebreak, ts) => {
   const input_lines = input_data.split(linebreak).filter(line => line.length);
@@ -11,4 +11,4 @@ const doxyjs = (input_data, linebreak, ts) => {
   return output_source;
 };
 
-module.exports = doxyjs;
+export default doxyjs;

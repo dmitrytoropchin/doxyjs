@@ -1,34 +1,34 @@
 const commentSource = (token, br, ts) => {
-  let source = ``;
+  let source = '';
 
   source += `/*!${br}`;
-  source += token.brief ? ` * @brief ${token.brief}${br}` : ``;
-  source += token.filename ? ` * @file ${token.filename}${br}` : ``;
+  source += token.brief ? ` * @brief ${token.brief}${br}` : '';
+  source += token.filename ? ` * @file ${token.filename}${br}` : '';
   source += token.params
     ? Object.keys(token.params)
-        .map(param_name => token.params[param_name])
-        .map(param => ` * @param ${param.name || ''} ${param.brief || ''}${br}`)
-        .join('')
-    : ``;
-  source += token.return ? ` * @return ${token.return.brief || ''}${br}` : ``;
+      .map(param_name => token.params[param_name])
+      .map(param => ` * @param ${param.name || ''} ${param.brief || ''}${br}`)
+      .join('')
+    : '';
+  source += token.return ? ` * @return ${token.return.brief || ''}${br}` : '';
   source += ` */${br}`;
 
   return source;
 };
 
 const variableSource = (token, br, ts) => {
-  let source = ``;
+  let source = '';
 
-  source += token.comment ? `//! ${token.comment.brief || ''}${br}` : ``;
+  source += token.comment ? `//! ${token.comment.brief || ''}${br}` : '';
   source += `${token.type} ${token.name};${br}`;
 
   return source;
 };
 
 const functionSource = (token, br, ts) => {
-  let source = ``;
+  let source = '';
 
-  source += token.comment ? commentSource(token.comment, br) : ``;
+  source += token.comment ? commentSource(token.comment, br) : '';
   source += `${token.type} ${token.name}(${token.args
     .map(arg => `${arg.type} ${arg.name}`)
     .join(', ')});${br}`;
@@ -37,13 +37,11 @@ const functionSource = (token, br, ts) => {
 };
 
 const classSource = (token, br, ts) => {
-  let source = ``;
+  let source = '';
 
-  source += token.comment ? `//! ${token.comment.brief || ''}${br}` : ``;
+  source += token.comment ? `//! ${token.comment.brief || ''}${br}` : '';
   source += `class ${token.class_name}`;
-  source += token.base_class
-    ? `: public ${token.base_class.base_name} {${br}`
-    : ` {${br}`;
+  source += token.base_class ? `: public ${token.base_class.base_name} {${br}` : ` {${br}`;
   source += `public:${br}`;
 
   if (token.constructor) {
@@ -52,12 +50,10 @@ const classSource = (token, br, ts) => {
       source += ` * @brief ${ts.translate('Constructor')}${br}`;
       source += token.constructor.comment.params
         ? Object.keys(token.constructor.comment.params)
-            .map(param_name => token.constructor.comment.params[param_name])
-            .map(
-              param => ` * @param ${param.name || ''} ${param.brief || ''}${br}`
-            )
-            .join('')
-        : ``;
+          .map(param_name => token.constructor.comment.params[param_name])
+          .map(param => ` * @param ${param.name || ''} ${param.brief || ''}${br}`)
+          .join('')
+        : '';
       source += ` */${br}`;
     }
     source += `${token.constructor.name}(${token.constructor.args
@@ -65,9 +61,7 @@ const classSource = (token, br, ts) => {
       .join(', ')});${br}`;
   }
 
-  source += token.methods
-    .map(method => functionSource(method, br, ts))
-    .join('');
+  source += token.methods.map(method => functionSource(method, br, ts)).join('');
 
   source += `};${br}`;
 
@@ -75,27 +69,27 @@ const classSource = (token, br, ts) => {
 };
 
 const outputSource = (structure, br, ts) => {
-  let output_sources = [];
+  const output_sources = [];
 
-  structure.comments.forEach(token => {
+  structure.comments.forEach((token) => {
     output_sources.push(commentSource(token, br, ts));
   });
 
-  structure.variables.forEach(token => {
+  structure.variables.forEach((token) => {
     output_sources.push(variableSource(token, br, ts));
   });
 
-  structure.functions.forEach(token => {
+  structure.functions.forEach((token) => {
     output_sources.push(functionSource(token, br, ts));
   });
 
   Object.keys(structure.classes)
     .map(class_name => structure.classes[class_name])
-    .forEach(_class => {
+    .forEach((_class) => {
       output_sources.push(classSource(_class, br, ts));
     });
 
   return output_sources.join(br);
 };
 
-module.exports = outputSource;
+export default outputSource;

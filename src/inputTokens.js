@@ -1,10 +1,7 @@
-const args_matcher = arguments_string => {
-  return arguments_string && arguments_string.trim().length
-    ? arguments_string.split(',').map(arg => {
-        return { name: arg.trim() };
-      })
-    : [];
-};
+const args_matcher = arguments_string =>
+  (arguments_string && arguments_string.trim().length
+    ? arguments_string.split(',').map(arg => ({ name: arg.trim() }))
+    : []);
 
 const variable_matcher = (tokens, line) => {
   const expr = /^var\s(\w+)/;
@@ -28,10 +25,7 @@ const function_matcher = (tokens, line) => {
     let new_tokens = tokens;
 
     const [, name, args] = match;
-    new_tokens = [
-      ...new_tokens,
-      { token_type: 'function', name, args: args_matcher(args) },
-    ];
+    new_tokens = [...new_tokens, { token_type: 'function', name, args: args_matcher(args) }];
 
     return new_tokens;
   }
@@ -64,7 +58,7 @@ const class_constructor_matcher = (tokens, line) => {
 };
 
 const class_method_matcher = (tokens, line) => {
-  const expr = /^(\w+)\.prototype\.(\w+)\s*\=\s*function\((.*)\)/;
+  const expr = /^(\w+)\.prototype\.(\w+)\s*=\s*function\((.*)\)/;
   const match = line.match(expr);
 
   if (match) {
@@ -75,7 +69,7 @@ const class_method_matcher = (tokens, line) => {
       ...new_tokens,
       {
         token_type: 'class_method',
-        class_name: class_name,
+        class_name,
         name: method_name,
         args: args_matcher(method_args),
       },
@@ -88,7 +82,7 @@ const class_method_matcher = (tokens, line) => {
 };
 
 const base_class_matcher = (tokens, line) => {
-  const expr = /^(\w+)\.prototype\s*\=\s*Object\.create\((\w+)\.prototype\)/;
+  const expr = /^(\w+)\.prototype\s*=\s*Object\.create\((\w+)\.prototype\)/;
   const match = line.match(expr);
 
   if (match) {
@@ -99,8 +93,8 @@ const base_class_matcher = (tokens, line) => {
       ...new_tokens,
       {
         token_type: 'base_class',
-        class_name: class_name,
-        base_name: base_name,
+        class_name,
+        base_name,
       },
     ];
 
@@ -111,7 +105,7 @@ const base_class_matcher = (tokens, line) => {
 };
 
 const single_line_comment_matcher = (tokens, line) => {
-  const expr = /^\/\/\!\s*(type\:(\w+))?\s*(.*)$/;
+  const expr = /^\/\/!\s*(type:(\w+))?\s*(.*)$/;
   const match = line.match(expr);
 
   if (match) {
@@ -132,7 +126,7 @@ const single_line_comment_matcher = (tokens, line) => {
 };
 
 const multiline_comment_begin_matcher = (tokens, line) => {
-  const expr = /^\/\*\!\s*$/;
+  const expr = /^\/\*!\s*$/;
   const match = line.match(expr);
 
   if (match) {
@@ -145,11 +139,11 @@ const multiline_comment_begin_matcher = (tokens, line) => {
 };
 
 const multiline_comment_file_matcher = (tokens, line) => {
-  const expr = /^\s*\*\s+\@file\s+(.+)$/;
+  const expr = /^\s*\*\s+@file\s+(.+)$/;
   const match = line.match(expr);
 
   if (match) {
-    let new_tokens = tokens;
+    const new_tokens = tokens;
     const [, filename] = match;
     new_tokens[new_tokens.length - 1].filename = filename;
     return new_tokens;
@@ -159,11 +153,11 @@ const multiline_comment_file_matcher = (tokens, line) => {
 };
 
 const multiline_comment_brief_matcher = (tokens, line) => {
-  const expr = /^\s*\*\s+\@brief\s+(.+)$/;
+  const expr = /^\s*\*\s+@brief\s+(.+)$/;
   const match = line.match(expr);
 
   if (match) {
-    let new_tokens = tokens;
+    const new_tokens = tokens;
     const [, brief] = match;
     new_tokens[new_tokens.length - 1].brief = brief;
     return new_tokens;
@@ -173,11 +167,11 @@ const multiline_comment_brief_matcher = (tokens, line) => {
 };
 
 const multiline_comment_param_matcher = (tokens, line) => {
-  const expr = /^\s*\*\s+\@param\s+(type\:(\w+)\s+)*(\w+)\s*(.*)$/;
+  const expr = /^\s*\*\s+@param\s+(type:(\w+)\s+)*(\w+)\s*(.*)$/;
   const match = line.match(expr);
 
   if (match) {
-    let new_tokens = tokens;
+    const new_tokens = tokens;
 
     const [, , param_type, param_name, param_brief] = match;
 
@@ -200,11 +194,11 @@ const multiline_comment_param_matcher = (tokens, line) => {
 };
 
 const multiline_comment_return_matcher = (tokens, line) => {
-  const expr = /^\s*\*\s+\@return\s+(type\:(\w+)\s+)*(.*)$/;
+  const expr = /^\s*\*\s+@return\s+(type:(\w+)\s+)*(.*)$/;
   const match = line.match(expr);
 
   if (match) {
-    let new_tokens = tokens;
+    const new_tokens = tokens;
 
     const [, , return_type, return_brief] = match;
 
@@ -229,7 +223,7 @@ const multiline_comment_end_matcher = (tokens, line) => {
   return null;
 };
 
-const inputTokens = input_lines => {
+const inputTokens = (input_lines) => {
   const input_tokens = input_lines.reduce((tokens, line) => {
     const new_tokens =
       variable_matcher(tokens, line) ||
@@ -250,4 +244,4 @@ const inputTokens = input_lines => {
   return input_tokens;
 };
 
-module.exports = inputTokens;
+export default inputTokens;

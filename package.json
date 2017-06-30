@@ -18,30 +18,30 @@
     "localize": "^0.4.7"
   },
   "devDependencies": {
+    "babel-cli": "^6.24.1",
+    "babel-eslint": "^7.2.3",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1",
+    "eslint": "^4.1.1",
+    "eslint-config-airbnb-base": "^11.2.0",
+    "eslint-plugin-import": "^2.6.1",
     "jest": "^20.0.4"
   },
   "bin": {
-    "doxyjs": "./index.js"
+    "doxyjs": "dist/index.js"
   },
-  "engines": {
-    "node": ">=7.0.0"
-  },
-  "keywords": [
-    "cli",
-    "doxygen"
-  ],
+  "files": ["dist/"],
+  "keywords": ["cli", "doxygen"],
   "scripts": {
+    "build": "babel src --out-dir dist --source-maps inline --copy-files",
+    "clean": "rm -rf dist",
+    "prebuild": "npm run clean",
+    "prepublish": "npm run build",
+    "pretest": "npm run build",
     "test": "jest"
   },
   "jest": {
-    "testMatch": [
-      "**/__tests__/*.test.js"
-    ],
-    "collectCoverageFrom": [
-      "**/*.js",
-      "!**/seeds/**",
-      "!**/node_modules/**",
-      "!**/coverage/**"
-    ]
+    "testMatch": ["**/__tests__/*.test.js"],
+    "collectCoverageFrom": ["**/*.js", "!**/seeds/**", "!**/node_modules/**", "!**/coverage/**"]
   }
 }

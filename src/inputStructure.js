@@ -1,13 +1,8 @@
-const isDetachedComment = token => {
-  return token.token_type === 'multiline_comment' && token.filename;
-};
+const isDetachedComment = token => token.token_type === 'multiline_comment' && token.filename;
 
-const isAttachedComment = token => {
-  return (
-    token.token_type === 'singleline_comment' ||
-    (token.token_type === 'multiline_comment' && !isDetachedComment(token))
-  );
-};
+const isAttachedComment = token =>
+  token.token_type === 'singleline_comment' ||
+  (token.token_type === 'multiline_comment' && !isDetachedComment(token));
 
 const prev = (array, index) => (index > 0 ? array[index - 1] : null);
 
@@ -34,7 +29,7 @@ const attachVariableComment = (token, comment) => {
 
 const attachFunctionComment = (token, comment) => {
   if (comment) {
-    token.args.forEach(arg => {
+    token.args.forEach((arg) => {
       if (comment.params && arg.name in comment.params) {
         arg.type = comment.params[arg.name].type || 'var';
       } else {
@@ -45,7 +40,7 @@ const attachFunctionComment = (token, comment) => {
     token.type = comment.return ? comment.return.type || 'void' : 'void';
     token.comment = comment;
   } else {
-    token.args.forEach(arg => {
+    token.args.forEach((arg) => {
       arg.type = 'var';
     });
 
@@ -56,7 +51,7 @@ const attachFunctionComment = (token, comment) => {
 
 const attachClassConstructorComment = (token, comment) => {
   if (comment) {
-    token.args.forEach(arg => {
+    token.args.forEach((arg) => {
       if (comment.params && arg.name in comment.params) {
         arg.type = comment.params[arg.name].type || 'var';
       } else {
@@ -66,7 +61,7 @@ const attachClassConstructorComment = (token, comment) => {
 
     token.comment = comment;
   } else {
-    token.args.forEach(arg => {
+    token.args.forEach((arg) => {
       arg.type = 'var';
     });
   }
@@ -75,7 +70,7 @@ const attachClassConstructorComment = (token, comment) => {
 
 const attachClassMethodComment = (token, comment) => {
   if (comment) {
-    token.args.forEach(arg => {
+    token.args.forEach((arg) => {
       if (comment.params && arg.name in comment.params) {
         arg.type = comment.params[arg.name].type || 'var';
       } else {
@@ -86,7 +81,7 @@ const attachClassMethodComment = (token, comment) => {
     token.type = comment.return ? comment.return.type || 'void' : 'void';
     token.comment = comment;
   } else {
-    token.args.forEach(arg => {
+    token.args.forEach((arg) => {
       arg.type = 'var';
     });
 
@@ -95,8 +90,8 @@ const attachClassMethodComment = (token, comment) => {
   return token;
 };
 
-const inputStructure = tokens => {
-  let structure = {
+const inputStructure = (tokens) => {
+  const structure = {
     comments: [],
     variables: [],
     functions: [],
@@ -106,27 +101,21 @@ const inputStructure = tokens => {
   tokens.forEach((token, index, tokens) => {
     switch (token.token_type) {
       case 'variable':
-        structure.variables.push(
-          attachVariableComment(token, comment(tokens, index))
-        );
+        structure.variables.push(attachVariableComment(token, comment(tokens, index)));
         break;
       case 'function':
-        structure.functions.push(
-          attachFunctionComment(token, comment(tokens, index))
-        );
+        structure.functions.push(attachFunctionComment(token, comment(tokens, index)));
         break;
       case 'class_constructor':
         prefillClass(structure, token.class_name);
         const c = comment(tokens, index);
-        structure.classes[
-          token.class_name
-        ].constructor = attachClassConstructorComment(token, c);
+        structure.classes[token.class_name].constructor = attachClassConstructorComment(token, c);
         structure.classes[token.class_name].comment = c || undefined;
         break;
       case 'class_method':
         prefillClass(structure, token.class_name);
         structure.classes[token.class_name].methods.push(
-          attachClassMethodComment(token, comment(tokens, index))
+          attachClassMethodComment(token, comment(tokens, index)),
         );
         break;
       case 'base_class':
@@ -141,10 +130,12 @@ const inputStructure = tokens => {
           structure.comments.push(token);
         }
         break;
+      default:
+        break;
     }
   });
 
   return structure;
 };
 
-module.exports = inputStructure;
+export default inputStructure;
