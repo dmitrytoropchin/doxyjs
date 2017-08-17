@@ -27,7 +27,7 @@ You can use `doxyjs` as standalone CLI tool to generate pseudo C++ code from jav
 Printing pseudo C++ representation of Javascript source to standard output:
 
 ```sh
-doxyqml --encoding utf8 --line-break lf --lang ru file.js
+doxyjs --encoding utf8 --line-break lf --lang ru file.js
 ```
 
 #### Options
