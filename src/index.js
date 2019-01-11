@@ -17,8 +17,8 @@ program
   .option(
     '-b, --line-break <line break>',
     'line break symbol [lf|crlf] (lf by default)',
-    val => (val.match(/^crlf$/i) ? '\r\n' : '\n'),
-    '\n',
+    (val) => (val.match(/^crlf$/i) ? '\r\n' : '\n'),
+    '\n'
   )
   .option('-l, --lang <language code>', 'output language (en by default)', 'en');
 

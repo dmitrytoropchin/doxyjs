@@ -1,6 +1,6 @@
-const isDetachedComment = token => token.token_type === 'multiline_comment' && token.filename;
+const isDetachedComment = (token) => token.token_type === 'multiline_comment' && token.filename;
 
-const isAttachedComment = token =>
+const isAttachedComment = (token) =>
   token.token_type === 'singleline_comment' ||
   (token.token_type === 'multiline_comment' && !isDetachedComment(token));
 
@@ -13,7 +13,7 @@ const comment = (array, index) => {
 
 const prefillClass = (structure, class_name) => {
   if (!(class_name in structure.classes)) {
-    structure.classes[class_name] = { class_name, methods: [] };
+    structure.classes[class_name] = {class_name, methods: []};
   }
 };
 
@@ -115,7 +115,7 @@ const inputStructure = (tokens) => {
       case 'class_method':
         prefillClass(structure, token.class_name);
         structure.classes[token.class_name].methods.push(
-          attachClassMethodComment(token, comment(tokens, index)),
+          attachClassMethodComment(token, comment(tokens, index))
         );
         break;
       case 'base_class':

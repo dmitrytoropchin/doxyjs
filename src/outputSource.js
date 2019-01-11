@@ -6,9 +6,9 @@ const commentSource = (token, br, ts) => {
   source += token.filename ? ` * @file ${token.filename}${br}` : '';
   source += token.params
     ? Object.keys(token.params)
-      .map(param_name => token.params[param_name])
-      .map(param => ` * @param ${param.name || ''} ${param.brief || ''}${br}`)
-      .join('')
+        .map((param_name) => token.params[param_name])
+        .map((param) => ` * @param ${param.name || ''} ${param.brief || ''}${br}`)
+        .join('')
     : '';
   source += token.return ? ` * @return ${token.return.brief || ''}${br}` : '';
   source += ` */${br}`;
@@ -30,7 +30,7 @@ const functionSource = (token, br, ts) => {
 
   source += token.comment ? commentSource(token.comment, br) : '';
   source += `${token.type} ${token.name}(${token.args
-    .map(arg => `${arg.type} ${arg.name}`)
+    .map((arg) => `${arg.type} ${arg.name}`)
     .join(', ')});${br}`;
 
   return source;
@@ -50,18 +50,18 @@ const classSource = (token, br, ts) => {
       source += ` * @brief ${ts.translate('Constructor')}${br}`;
       source += token.constructor.comment.params
         ? Object.keys(token.constructor.comment.params)
-          .map(param_name => token.constructor.comment.params[param_name])
-          .map(param => ` * @param ${param.name || ''} ${param.brief || ''}${br}`)
-          .join('')
+            .map((param_name) => token.constructor.comment.params[param_name])
+            .map((param) => ` * @param ${param.name || ''} ${param.brief || ''}${br}`)
+            .join('')
         : '';
       source += ` */${br}`;
     }
     source += `${token.constructor.name}(${token.constructor.args
-      .map(arg => `${arg.type} ${arg.name}`)
+      .map((arg) => `${arg.type} ${arg.name}`)
       .join(', ')});${br}`;
   }
 
-  source += token.methods.map(method => functionSource(method, br, ts)).join('');
+  source += token.methods.map((method) => functionSource(method, br, ts)).join('');
 
   source += `};${br}`;
 
@@ -84,7 +84,7 @@ const outputSource = (structure, br, ts) => {
   });
 
   Object.keys(structure.classes)
-    .map(class_name => structure.classes[class_name])
+    .map((class_name) => structure.classes[class_name])
     .forEach((_class) => {
       output_sources.push(classSource(_class, br, ts));
     });

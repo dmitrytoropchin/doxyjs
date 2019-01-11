@@ -1,4 +1,10 @@
 
+## 1.3.0
+
+-  added support for multiline comment starting with `/**`
+-  added support for variable declarations with `let` and `const`
+-  added support for keywords starting with `\` (like `\file`)
+
 ## 1.2.0
 
 -  using babel for package building
