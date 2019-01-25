@@ -1,4 +1,8 @@
 
+## 1.3.1
+
+-  fixed processing of UTF-8 with BOM encoded source files
+
 ## 1.3.0
 
 -  added support for multiline comment starting with `/**`
