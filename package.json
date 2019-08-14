@@ -14,18 +14,15 @@
     "url": "https://github.com/dmitrytoropchin/doxyjs.git"
   },
   "dependencies": {
-    "commander": "^2.9.0",
+    "commander": "^2.20.0",
     "localize": "^0.4.7"
   },
   "devDependencies": {
-    "babel-cli": "^6.24.1",
-    "babel-eslint": "^7.2.3",
-    "babel-preset-es2015": "^6.24.1",
-    "babel-preset-stage-2": "^6.24.1",
-    "eslint": "^4.1.1",
-    "eslint-config-airbnb-base": "^11.2.0",
-    "eslint-plugin-import": "^2.6.1",
-    "jest": "^20.0.4"
+    "@babel/cli": "^7.5.5",
+    "@babel/core": "^7.5.5",
+    "@babel/preset-env": "^7.5.5",
+    "eslint": "^6.1.0",
+    "jest": "^24.8.0"
   },
   "bin": {
     "doxyjs": "dist/index.js"
