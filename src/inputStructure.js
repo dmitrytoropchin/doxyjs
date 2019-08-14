@@ -108,9 +108,8 @@ const inputStructure = (tokens) => {
         break;
       case 'class_constructor':
         prefillClass(structure, token.class_name);
-        const c = comment(tokens, index);
-        structure.classes[token.class_name].constructor = attachClassConstructorComment(token, c);
-        structure.classes[token.class_name].comment = c || undefined;
+        structure.classes[token.class_name].constructor = attachClassConstructorComment(token, comment(tokens, index));
+        structure.classes[token.class_name].comment = comment(tokens, index) || undefined;
         break;
       case 'class_method':
         prefillClass(structure, token.class_name);

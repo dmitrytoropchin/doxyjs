@@ -1,4 +1,4 @@
-const commentSource = (token, br, ts) => {
+const commentSource = (token, br) => {
   let source = '';
 
   source += `/*!${br}`;
@@ -16,7 +16,7 @@ const commentSource = (token, br, ts) => {
   return source;
 };
 
-const variableSource = (token, br, ts) => {
+const variableSource = (token, br) => {
   let source = '';
 
   source += token.comment ? `//! ${token.comment.brief || ''}${br}` : '';
@@ -25,7 +25,7 @@ const variableSource = (token, br, ts) => {
   return source;
 };
 
-const functionSource = (token, br, ts) => {
+const functionSource = (token, br) => {
   let source = '';
 
   source += token.comment ? commentSource(token.comment, br) : '';

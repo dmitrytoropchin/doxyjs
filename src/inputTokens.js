@@ -126,7 +126,7 @@ const single_line_comment_matcher = (tokens, line) => {
 };
 
 const multiline_comment_begin_matcher = (tokens, line) => {
-  const expr = /^\/\*[\*!]\s*$/;
+  const expr = /^\/\*[*!]\s*$/;
   const match = line.match(expr);
 
   if (match) {
