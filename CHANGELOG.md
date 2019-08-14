@@ -1,4 +1,9 @@
 
+## 1.3.4
+
+-  fixed return type for documented functions
+-  dependencies upgrade
+
 ## 1.3.1
 
 -  fixed processing of UTF-8 with BOM encoded source files
