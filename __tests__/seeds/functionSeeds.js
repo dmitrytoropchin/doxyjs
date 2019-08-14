@@ -65,7 +65,7 @@ void foo(var arg1, Date arg2);
  * @param arg2 arg 2 description
  * @return return description
  */
-void foo(var arg1, Date arg2);
+var foo(var arg1, Date arg2);
 `,
   `/*!
  * @brief function description

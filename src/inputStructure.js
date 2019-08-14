@@ -37,7 +37,7 @@ const attachFunctionComment = (token, comment) => {
       }
     });
 
-    token.type = comment.return ? comment.return.type || 'void' : 'void';
+    token.type = comment.return ? comment.return.type || 'var' : 'void';
     token.comment = comment;
   } else {
     token.args.forEach((arg) => {
